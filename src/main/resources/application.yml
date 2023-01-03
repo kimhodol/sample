@@ -1,0 +1,19 @@
+spring:
+  devtools:
+    livereload:
+      enabled: true
+    restart:
+      enabled: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:55000/sample
+    username: postgres
+    password: postgrespw
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+      properties:
+        hibernate:
+          format_sql: true
+    show-sql: true
