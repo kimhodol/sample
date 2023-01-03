@@ -1,14 +1,14 @@
 package dev.hodol.sample.user
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
+import com.ninjasquad.springmockk.MockkBean
 import dev.hodol.sample.user.dto.GetUserResponse
 import dev.hodol.sample.user.dto.GetUsersResponse
+import io.mockk.every
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
-import org.mockito.BDDMockito.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
-import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
@@ -18,7 +18,7 @@ class UserControllerTest {
     @Autowired
     lateinit var mvc: MockMvc
 
-    @MockBean
+    @MockkBean
     lateinit var userService: UserService
 
     private val mapper = jacksonObjectMapper()
@@ -29,7 +29,7 @@ class UserControllerTest {
             User("WJ", 30, null, 1L),
             User("Sangwoo", 29, "sangw0804@naver.com", 2L)
         )
-        given(userService.getUsers()).willReturn(users)
+        every { userService.getUsers() } returns users
 
         val expected = GetUsersResponse.of(users)
 
@@ -48,7 +48,7 @@ class UserControllerTest {
     @Test
     fun `유저를 조회한다`() {
         val user = User("WJ", 30, null, 1L)
-        given(userService.getUserById(anyLong())).willReturn(user)
+        every { userService.getUserById(any()) } returns user
 
         val expected = GetUserResponse.of(user)
 
