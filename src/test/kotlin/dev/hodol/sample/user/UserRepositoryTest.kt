@@ -1,7 +1,7 @@
 package dev.hodol.sample.user
 
-import org.assertj.core.api.Assertions.assertThat
-import org.junit.jupiter.api.Test
+import io.kotest.core.spec.style.BehaviorSpec
+import io.kotest.matchers.shouldBe
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
@@ -12,24 +12,22 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Testcontainers
-class UserRepositoryTest {
-
+class UserRepositoryTest(
     @Autowired
-    lateinit var userRepository: UserRepository
-
-    @Test
-    fun `유저를 생성한다`() {
-        val user = User(
-            "WJ",
-            30,
-        )
-        val saved = userRepository.save(user)
-
-        assertThat(saved.id).isEqualTo(1L)
-        assertThat(saved.name).isEqualTo("WJ")
-        assertThat(saved.email).isNull()
+    val userRepository: UserRepository
+) : BehaviorSpec({
+    given("유저 객체를 생성하고") {
+        val user = User("WJ", 30)
+        `when`("save를 호출하면") {
+            val saved = userRepository.save(user)
+            then("유저 객체가 저장된다.") {
+                saved.id shouldBe 1L
+                saved.name shouldBe "WJ"
+                saved.email shouldBe null
+            }
+        }
     }
-
+}) {
     companion object {
         @JvmStatic
         @Container
