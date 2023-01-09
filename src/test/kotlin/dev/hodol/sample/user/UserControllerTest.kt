@@ -4,6 +4,8 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.ninjasquad.springmockk.MockkBean
 import dev.hodol.sample.user.dto.GetUserResponse
 import dev.hodol.sample.user.dto.GetUsersResponse
+import dev.hodol.sample.user.vo.Email
+import dev.hodol.sample.user.vo.Name
 import io.kotest.core.spec.style.StringSpec
 import io.mockk.every
 import org.junit.jupiter.api.Assertions.*
@@ -28,6 +30,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.DefaultMockMvcBuilder
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
+import java.time.LocalDate
 
 @ExtendWith(RestDocumentationExtension::class)
 @WebMvcTest(UserController::class)
@@ -58,8 +61,15 @@ class UserControllerTest(
 
     "유저 목록을 조회한다." {
         val users = listOf(
-            User("Woonjang", 30, null, 1L),
-            User("Sangwoo", 29, "sangw0804@naver.com", 2L)
+            User(
+                name = Name("WJ"),
+                birthday = LocalDate.of(1994, 7, 12),
+                email = Email("woonjangahn@gmail.com")
+            ),
+            User(
+                name = Name("Sangwoo"),
+                birthday = LocalDate.of(1995, 8, 4),
+            ),
         )
         every { userService.getUsers() } returns users
 
@@ -87,7 +97,12 @@ class UserControllerTest(
     }
 
     "단일 유저를 조회한다." {
-        val user = User("Woonjang", 30, null, 1L)
+        val user = User(
+            name = Name("WJ"),
+            birthday = LocalDate.of(1994, 7, 12),
+            email = Email("woonjangahn@gmail.com")
+        )
+
         every { userService.getUserById(any()) } returns user
 
         val expected = GetUserResponse.of(user)

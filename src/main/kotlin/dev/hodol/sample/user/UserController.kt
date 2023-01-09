@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
+import java.util.*
 
 @RestController
 @RequestMapping("/users")
@@ -20,7 +21,7 @@ class UserController(
     }
 
     @GetMapping("/{userId}")
-    fun getUser(@PathVariable userId: Long): ResponseEntity<GetUserResponse> {
+    fun getUser(@PathVariable userId: UUID): ResponseEntity<GetUserResponse> {
         val user = userService.getUserById(userId)
         return ResponseEntity.ok(GetUserResponse.of(user))
     }

@@ -1,19 +1,36 @@
 package dev.hodol.sample.user
 
+import dev.hodol.sample.entity.PrimaryKeyEntity
+import dev.hodol.sample.order.Order
+import dev.hodol.sample.user.vo.Email
+import dev.hodol.sample.user.vo.Name
 import jakarta.persistence.*
+import java.time.LocalDate
 
 @Entity
-@Table(name = "users")
+@Table(name = "`user`")
 class User(
-    @Column(nullable = false)
-    val name: String,
+    name: Name,
+    birthday: LocalDate,
+    email: Email? = null,
+) : PrimaryKeyEntity() {
+    @Column(nullable = false, unique = true)
+    var name: Name = name
+        private set
 
     @Column(nullable = false)
-    val age: Int,
+    var birthday: LocalDate = birthday
+        private set
 
     @Column(nullable = true)
-    val email: String? = null,
+    var email: Email? = email
+        private set
 
-    @Id @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    val id: Long? = null,
-)
+    @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "orderer")
+    private val mutableOrders: MutableList<Order> = mutableListOf()
+    val orders: List<Order> get() = mutableOrders.toList()
+
+    fun addOrder(order: Order) {
+        mutableOrders.add(order)
+    }
+}
