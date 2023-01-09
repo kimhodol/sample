@@ -1,0 +1,15 @@
+= Sample App API Document
+:doctype: book
+:icons: font
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+== 회원 목록
+
+operation::getUsers[snippets='http-request,curl-request,response-fields,http-response']
+
+== 회원 조회
+
+operation::getUser[snippets='http-request,curl-request,response-fields,http-response']

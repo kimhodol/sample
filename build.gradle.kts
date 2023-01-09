@@ -40,6 +40,7 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:${Versions.Kotest.Core}")
     testImplementation("io.kotest.extensions:kotest-extensions-spring:${Versions.Kotest.SpringExtension}")
     testImplementation("com.ninja-squad:springmockk:${Versions.SpringMockK}")
+    testImplementation("org.springframework.restdocs:spring-restdocs-mockmvc")
 }
 
 dependencyManagement {

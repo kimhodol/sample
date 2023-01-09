@@ -14,4 +14,6 @@ object Versions {
     }
 
     const val SpringMockK = "3.0.1"
+
+    const val AsciiDoctor = "3.3.2"
 }
