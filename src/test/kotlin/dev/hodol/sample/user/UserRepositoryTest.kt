@@ -24,8 +24,8 @@ class UserRepositoryTest(
         `when`("save를 호출하면") {
             val saved = userRepository.save(user)
             then("유저 객체가 저장된다.") {
-                saved.name shouldBe "WJ"
-                saved.email shouldBe null
+                saved.name shouldBe Name("WJ")
+                saved.email shouldBe Email("woonjangahn@gmail.com")
             }
         }
     }
